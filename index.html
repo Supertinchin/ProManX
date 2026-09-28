@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tinchin</title>
+<style>
+  :root{--bg:#07080b;--fg:#f7f3ea;--accent:#ff6b35;--accent2:#ffbd59;--line:rgba(255,255,255,.11)}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255,107,53,.18), transparent 30%),
+      radial-gradient(circle at 82% 72%, rgba(255,189,89,.12), transparent 28%),
+      linear-gradient(135deg,#050608,#0d1017 55%,#090a0d);
+    color:var(--fg);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  body:before{
+    content:"";
+    position:fixed;inset:-50%;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:56px 56px;
+    transform:perspective(700px) rotateX(62deg) translateY(28%);
+    transform-origin:center;
+    mask-image:linear-gradient(to bottom,transparent 5%,black 45%,transparent 92%);
+    opacity:.35;
+    animation:grid 16s linear infinite;
+  }
+  .orb{position:absolute;border-radius:50%;filter:blur(10px);opacity:.55;mix-blend-mode:screen}
+  .o1{width:42vw;height:42vw;left:-14vw;top:-18vw;background:radial-gradient(circle,#ff6b35 0,transparent 68%);animation:float1 10s ease-in-out infinite}
+  .o2{width:36vw;height:36vw;right:-10vw;bottom:-16vw;background:radial-gradient(circle,#ffbd59 0,transparent 68%);animation:float2 12s ease-in-out infinite}
+  main{position:relative;height:100%;display:grid;place-items:center;padding:6vw;isolation:isolate}
+  .frame{
+    position:absolute;inset:28px;border:1px solid rgba(255,255,255,.14);border-radius:28px;
+    box-shadow:inset 0 0 60px rgba(255,255,255,.02),0 40px 120px rgba(0,0,0,.38);
+  }
+  .frame:before,.frame:after{content:"";position:absolute;width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--accent))}
+  .frame:before{top:28px;left:28px}.frame:after{bottom:28px;right:28px;transform:rotate(180deg)}
+  .hero{text-align:center;position:relative}
+  .eyebrow{
+    font-size:clamp(.66rem,.85vw,.9rem);letter-spacing:.42em;text-transform:uppercase;
+    color:rgba(255,255,255,.54);margin-bottom:1.2rem;animation:fade .9s .15s both
+  }
+  h1{
+    margin:0;
+    font-size:clamp(5rem,21vw,20rem);
+    line-height:.78;
+    letter-spacing:-.085em;
+    font-weight:900;
+    position:relative;
+    background:linear-gradient(120deg,#fff 10%,#fff4de 35%,#ffbd59 58%,#ff6b35 78%,#fff 100%);
+    background-size:220% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 16px 45px rgba(255,107,53,.14));
+    animation:shine 6s linear infinite,enter 1.05s cubic-bezier(.2,.8,.2,1) both;
+  }
+  h1:after{
+    content:"Tinchin";position:absolute;inset:0;z-index:-1;color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.15);
+    transform:translate(10px,12px);filter:blur(.2px)
+  }
+  .dot{
+    width:10px;height:10px;background:var(--accent);border-radius:50%;margin:2.2rem auto 0;
+    box-shadow:0 0 0 0 rgba(255,107,53,.5);
+    animation:pulse 2s infinite
+  }
+  .meta{
+    position:absolute;left:52px;right:52px;bottom:46px;display:flex;justify-content:space-between;gap:20px;
+    color:rgba(255,255,255,.36);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase
+  }
+  @keyframes shine{to{background-position:220% center}}
+  @keyframes enter{from{opacity:0;transform:translateY(55px) scale(.94);filter:blur(18px)}to{opacity:1;transform:none;filter:blur(0) drop-shadow(0 16px 45px rgba(255,107,53,.14))}}
+  @keyframes fade{from{opacity:0;letter-spacing:.8em}to{opacity:1;letter-spacing:.42em}}
+  @keyframes pulse{70%{box-shadow:0 0 0 22px rgba(255,107,53,0)}100%{box-shadow:0 0 0 0 rgba(255,107,53,0)}}
+  @keyframes float1{50%{transform:translate(9vw,7vh) scale(1.08)}}
+  @keyframes float2{50%{transform:translate(-8vw,-5vh) scale(.92)}}
+  @keyframes grid{to{transform:perspective(700px) rotateX(62deg) translateY(calc(28% + 56px))}}
+  @media (max-width:700px){.frame{inset:14px;border-radius:20px}.meta{left:30px;right:30px;bottom:28px}.eyebrow{letter-spacing:.28em}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<main>
+  <div class="frame"></div>
+  <section class="hero">
+    <div class="eyebrow">digital object / 2026</div>
+    <h1>Tinchin</h1>
+    <div class="dot"></div>
+  </section>
+  <div class="meta"><span>Supertinchin</span><span>Pure HTML + CSS</span></div>
+</main>
+</body>
+</html>
