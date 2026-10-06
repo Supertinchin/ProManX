@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Peces Voladores</title>
+  <style>
+    :root{
+      --sky1:#6fd3ff;
+      --sky2:#bcecff;
+      --sun:#fff1a8;
+      --sea1:#118ab2;
+      --sea2:#075985;
+      --foam:rgba(255,255,255,.78);
+      --ink:#083344;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#8ddcff}
+    body{position:relative;color:var(--ink)}
+    .scene{
+      position:relative;
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 20%,rgba(255,255,255,.95) 0 3%,rgba(255,241,168,.8) 3.2% 7%,transparent 7.2%),
+        linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 63%,#e8faff 64%,var(--sea1) 65%,var(--sea2) 100%);
+    }
+    .title{
+      position:absolute;
+      z-index:10;
+      left:50%;
+      top:7vh;
+      transform:translateX(-50%);
+      margin:0;
+      font-size:clamp(34px,6vw,92px);
+      line-height:.9;
+      letter-spacing:-.06em;
+      color:white;
+      text-shadow:0 8px 28px rgba(8,51,68,.2);
+      white-space:nowrap;
+      user-select:none;
+    }
+    .subtitle{
+      position:absolute;
+      z-index:10;
+      left:50%;
+      top:18vh;
+      transform:translateX(-50%);
+      font-size:clamp(12px,1.25vw,18px);
+      font-weight:650;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(8,51,68,.72);
+      white-space:nowrap;
+    }
+    .cloud{
+      position:absolute;
+      width:140px;height:38px;
+      background:rgba(255,255,255,.82);
+      border-radius:999px;
+      filter:blur(.2px);
+      animation:drift 26s linear infinite;
+    }
+    .cloud:before,.cloud:after{
+      content:"";position:absolute;background:inherit;border-radius:50%;
+    }
+    .cloud:before{width:60px;height:60px;left:22px;bottom:8px}
+    .cloud:after{width:78px;height:78px;right:20px;bottom:3px}
+    .c1{top:17%;left:-170px;transform:scale(.8);animation-duration:34s}
+    .c2{top:31%;left:-240px;transform:scale(1.15);animation-duration:43s;animation-delay:-17s;opacity:.75}
+    @keyframes drift{to{left:110vw}}
+    .sea{
+      position:absolute;left:0;right:0;bottom:0;height:36%;
+      overflow:hidden;
+    }
+    .wave{
+      position:absolute;left:-10%;width:120%;height:55px;border-radius:50%;
+      border-top:3px solid var(--foam);
+      opacity:.7;
+      animation:wave 5s ease-in-out infinite alternate;
+    }
+    .w1{top:2%;animation-delay:-1s}.w2{top:24%;opacity:.45;animation-delay:-3s}.w3{top:48%;opacity:.25}
+    @keyframes wave{from{transform:translateX(-1.5%) scaleY(.7)}to{transform:translateX(1.5%) scaleY(1.1)}}
+
+    .fish{
+      --scale:1;
+      --delay:0s;
+      --duration:8s;
+      --arc:210px;
+      position:absolute;
+      width:92px;height:42px;
+      left:-130px;
+      bottom:28%;
+      transform:scale(var(--scale));
+      animation:fly var(--duration) cubic-bezier(.28,.72,.4,.96) var(--delay) infinite;
+      z-index:6;
+      filter:drop-shadow(0 8px 8px rgba(5,57,77,.18));
+    }
+    .body{
+      position:absolute;
+      inset:4px 14px 4px 0;
+      border-radius:58% 48% 48% 58% / 55% 48% 52% 45%;
+      background:linear-gradient(145deg,#ff8f70,#ffcb66);
+    }
+    .tail{
+      position:absolute;
+      right:0;top:9px;
+      width:30px;height:26px;
+      background:#ff6b6b;
+      clip-path:polygon(100% 0,50% 50%,100% 100%,0 74%,0 26%);
+      transform-origin:left center;
+      animation:tail .35s ease-in-out infinite alternate;
+    }
+    .wing{
+      position:absolute;
+      width:50px;height:22px;
+      left:24px;top:-6px;
+      background:rgba(255,255,255,.9);
+      border:2px solid rgba(8,51,68,.12);
+      border-radius:100% 0 100% 0;
+      transform-origin:10% 100%;
+      animation:flap .32s ease-in-out infinite alternate;
+    }
+    .wing.back{top:24px;transform:scaleY(-1);opacity:.65;animation-direction:alternate-reverse}
+    .eye{position:absolute;width:7px;height:7px;background:#083344;border-radius:50%;left:16px;top:14px;box-shadow:inset 2px 2px 0 white}
+    .spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:-8px;top:18px;opacity:0;animation:spark .9s linear infinite}
+    @keyframes tail{to{transform:rotate(13deg) scaleX(.86)}}
+    @keyframes flap{from{transform:rotate(-24deg) scaleY(.55)}to{transform:rotate(32deg) scaleY(1.05)}}
+    @keyframes spark{
+      0%{transform:translate(0,0) scale(1);opacity:0}
+      25%{opacity:.9}
+      100%{transform:translate(-32px,12px) scale(.1);opacity:0}
+    }
+    @keyframes fly{
+      0%{left:-140px;bottom:26%;transform:translateY(0) rotate(-7deg) scale(var(--scale))}
+      18%{bottom:46%;transform:translateY(calc(var(--arc) * -.25)) rotate(-18deg) scale(var(--scale))}
+      42%{bottom:66%;transform:translateY(calc(var(--arc) * -.4)) rotate(2deg) scale(var(--scale))}
+      66%{bottom:52%;transform:translateY(calc(var(--arc) * -.2)) rotate(16deg) scale(var(--scale))}
+      86%{bottom:31%;transform:translateY(0) rotate(24deg) scale(var(--scale))}
+      100%{left:112vw;bottom:24%;transform:translateY(35px) rotate(12deg) scale(var(--scale))}
+    }
+    .f1{--scale:1.15;--duration:9.5s;--delay:-1.5s;--arc:180px}
+    .f2{--scale:.78;--duration:7.2s;--delay:-5.7s;--arc:230px}
+    .f3{--scale:.95;--duration:10.8s;--delay:-8.2s;--arc:140px}
+    .f4{--scale:.6;--duration:6.7s;--delay:-3.3s;--arc:260px}
+    .f5{--scale:1.35;--duration:12s;--delay:-10.4s;--arc:120px}
+    .f6{--scale:.68;--duration:8.6s;--delay:-6.4s;--arc:205px}
+    .island{
+      position:absolute;right:7%;bottom:24%;width:240px;height:46px;
+      background:#e7c77f;border-radius:50% 50% 42% 40%;
+      transform:rotate(-2deg);z-index:3;
+      box-shadow:inset 0 7px 0 rgba(255,255,255,.18);
+    }
+    .palm{position:absolute;left:68%;bottom:12px;width:8px;height:90px;background:#7b5d3d;border-radius:9px;transform:rotate(-8deg);transform-origin:bottom;box-shadow:0 0 0 1px rgba(0,0,0,.04)}
+    .palm:before,.palm:after{content:"";position:absolute;left:-25px;top:-5px;width:62px;height:19px;background:#38a169;border-radius:100% 0 100% 0;transform-origin:center}
+    .palm:before{transform:rotate(18deg)}
+    .palm:after{transform:rotate(130deg)}
+    .hint{
+      position:absolute;z-index:9;left:50%;bottom:4vh;transform:translateX(-50%);
+      color:rgba(255,255,255,.78);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    }
+    @media (max-width:700px){
+      .subtitle{top:15.5vh}
+      .island{transform:scale(.72);transform-origin:right bottom;right:2%}
+      .fish{--scale:.78}
+      .f4,.f6{display:none}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{animation-duration:.001ms!important;animation-iteration-count:1!important}
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" aria-label="Animación de peces voladores sobre el mar">
+    <h1 class="title">Peces voladores</h1>
+    <div class="subtitle">cuando el mar ya no alcanza</div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+
+    <div class="fish f1"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+    <div class="fish f2"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+    <div class="fish f3"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+    <div class="fish f4"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+    <div class="fish f5"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+    <div class="fish f6"><div class="tail"></div><div class="body"><div class="eye"></div></div><div class="wing"></div><div class="wing back"></div><div class="spark"></div></div>
+
+    <div class="island"><div class="palm"></div></div>
+    <div class="sea"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <div class="hint">Hecho con HTML + CSS · sin imágenes</div>
+  </main>
+</body>
+</html>
